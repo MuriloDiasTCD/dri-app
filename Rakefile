@@ -163,34 +163,38 @@ namespace :db do
 end
 
 namespace :ssl do
-  desc 'start thin with ssl enabled'
-  task 'start' do
-    keys = Dir[Rails.root.join('config', 'ssl', '*.key')]
-    certs = Dir[Rails.root.join('config', 'ssl', '*.crt')]
+  namespace :server do
+    desc 'start thin with ssl enabled'
+    task 'start' do
+      keys = Dir[Rails.root.join('config', 'ssl', '*.key')]
+      certs = Dir[Rails.root.join('config', 'ssl', '*.crt')]
 
-    if keys.count > 1 || certs.count > 1
-      puts "${Rails.root.join('config', 'ssl')} must only contain one key and crt file"
-      return 1
-    end
+      if keys.count > 1 || certs.count > 1
+        puts "${Rails.root.join('config', 'ssl')} must only contain one key and crt file"
+        return 1
+      end
 
-    cmd = "thin start --ssl --ssl-key-file #{keys.first} --ssl-cert-file #{certs.first}"
-    puts cmd
-    system cmd
-  end
-  desc 'delete all ssl keys and certs for this project'
-  task 'clear' do
-    keys = Dir[Rails.root.join('config', 'ssl', '*.key')]
-    certs = Dir[Rails.root.join('config', 'ssl', '*.crt')]
-    all = keys + certs
-    cmd = all.map(&->(p){"rm #{p}"}).join(";\n") 
-    puts cmd
-    puts "run the commands above? y/n"
-    if STDIN.gets.chomp.downcase == 'y'
+      cmd = "thin start --ssl --ssl-key-file #{keys.first} --ssl-cert-file #{certs.first}"
+      puts cmd
       system cmd
     end
   end
-  desc 'generate ssl key and cert'
-  task 'generate' do
-    system("#{Rails.root.join('hacking')}/gen_https_cert.sh")
+  namespace :certs do
+    desc 'delete all ssl keys and certs for this project'
+    task 'clear' do
+      keys = Dir[Rails.root.join('config', 'ssl', '*.key')]
+      certs = Dir[Rails.root.join('config', 'ssl', '*.crt')]
+      all = keys + certs
+      cmd = all.map(&->(p){"rm #{p}"}).join(";\n") 
+      puts cmd
+      puts "run the commands above? y/n"
+      if STDIN.gets.chomp.downcase == 'y'
+        system cmd
+      end
+    end
+    desc 'generate ssl key and cert'
+    task 'generate' do
+      system("#{Rails.root.join('hacking')}/gen_https_cert.sh")
+    end
   end
 end
