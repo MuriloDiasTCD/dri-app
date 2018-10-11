@@ -57,3 +57,6 @@ dri_files
 .byebug*
 *.pid
 *.sublime*
+
+config/ssl/*.crt
+config/ssl/*.key
