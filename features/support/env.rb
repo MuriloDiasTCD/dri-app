@@ -94,6 +94,35 @@ ActionController::Base.allow_rescue = false
 # See https://github.com/cucumber/cucumber-rails/blob/master/features/choose_javascript_database_strategy.feature
 Cucumber::Rails::Database.javascript_strategy = :truncation
 
+# # Capybara.app_host = 'https://localhost:3000'
+# Capybara.server_port = 3000
+# Capybara.app_host = "https://localhost:#{Capybara.server_port}" 
+# # Capybara.app_host = "https://localhost" 
+
+# require 'thin'
+# Capybara.register_server :thin do |app, port, host|
+#   Rack::Handler::Thin.run(app, Host: host, Port: port) do |server|
+#     server.ssl = true
+#     server.ssl_options = {
+#       private_key_file: Dir[Rails.root.join('config', 'ssl', '*.key')].first,
+#       cert_chain_file: Dir[Rails.root.join('config', 'ssl', '*.crt')].first,
+#       verify_peer: false
+#     }
+#   end
+# end
+# Capybara.server = :thin
+
+
+require 'byebug'
+require 'puma'
+key_file = Dir[Rails.root.join('config', 'ssl', '*.key')].first
+cert_file = Dir[Rails.root.join('config', 'ssl', '*.crt')].first
+Capybara.server = :puma, { 
+  Host: "ssl://#{Capybara.server_host}?key=#{key_file}&cert=#{cert_file}",
+  # silent: true
+}
+
+
 #
 # DRI-TCD - should be moved to a more sensible location to avoid being over-ridden
 #

@@ -8,9 +8,9 @@ openssl req \
   -newkey rsa:2048 \
   -x509 \
   -nodes \
-  -keyout $SCRIPTPATH/../config/ssl/$name.key \
+  -keyout "$SCRIPTPATH/../config/ssl/$name.key" \
   -new \
-  -out $SCRIPTPATH/../config/ssl/$name.crt \
+  -out "$SCRIPTPATH/../config/ssl/$name.crt" \
   -subj /CN=localhost \
   -reqexts SAN \
   -sha256 \
@@ -19,6 +19,7 @@ openssl req \
   -config <(cat /usr/lib/ssl/openssl.cnf \
       <(printf '[SAN]\nsubjectAltName=DNS:localhost'))
 
+# doesn't work on chrome anyway, still need to click proceed
 # copy cert file to local share to trust it
 sudo cp "$SCRIPTPATH/../config/ssl/$name.crt" "/usr/local/share/ca-certificates/"
 sudo update-ca-certificates -vf

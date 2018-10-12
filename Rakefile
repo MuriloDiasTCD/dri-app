@@ -165,7 +165,7 @@ end
 namespace :ssl do
   namespace :server do
     desc 'start thin with ssl enabled'
-    task 'start' do
+    task start: :environment do
       keys = Dir[Rails.root.join('config', 'ssl', '*.key')]
       certs = Dir[Rails.root.join('config', 'ssl', '*.crt')]
 
@@ -194,7 +194,10 @@ namespace :ssl do
     end
     desc 'generate ssl key and cert'
     task 'generate' do
-      system("#{Rails.root.join('hacking')}/gen_https_cert.sh")
+      system("#{Rails.root.join('hacking')}/ssl_gen_certs.sh")
+    end
+    task 'check' do
+      system("#{Rails.root.join('hacking')}/ssl_check_certs.sh")
     end
   end
 end

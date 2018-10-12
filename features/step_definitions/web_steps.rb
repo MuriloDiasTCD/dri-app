@@ -450,3 +450,4 @@ end
 Then /^the element with id "([^"]*)" should be focused$/ do |id|
   page.evaluate_script("document.activeElement.id").should == id 
 end
+

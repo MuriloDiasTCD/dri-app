@@ -1,7 +1,6 @@
 module PathTranslator
 
   def path_to(page_name)
-
     case page_name
 
       when /^ingest an object$/
@@ -84,7 +83,6 @@ module PathTranslator
 
     end
   end
-
 
   def path_for(type, page, pid)
 

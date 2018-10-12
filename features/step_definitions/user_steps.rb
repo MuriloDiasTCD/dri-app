@@ -16,9 +16,9 @@ Given /^I am logged in as "([^\"]*)" and accept cookies$/ do |login|
   @user.confirm
   delete destroy_user_session_path(@user)
   visit path_to("sign in")
+  step 'I accept cookies terms'
   fill_in("user_email", :with => email)
   fill_in("user_password", :with => "password")
-  step 'I accept cookies terms'
   click_button("Login")
   step 'I should be logged in'
 end
@@ -120,7 +120,7 @@ end
 Given /^I am not logged in$/ do
   step 'I am on the home page'
   Capybara.reset_sessions!
-  if Capybara.current_driver.to_s == "rack_test"
+  if %w(poltergeist rack_test).include? Capybara.current_driver.to_s
     page.driver.submit :delete, "/user_groups/users/sign_out", {}
   end
 end
@@ -182,6 +182,7 @@ When /^I submit the User Sign in page with credentials "([^\"]*)" and "([^\"]*)"
 end
 
 Then /^I should be logged in$/ do
+  step 'I should not see the message "Invalid email or password"'
   step 'I should have a cookie _dri-app_session'
   step 'I am on the user profile page'
   step 'I should see a link to sign out'

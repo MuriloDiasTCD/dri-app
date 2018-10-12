@@ -177,3 +177,5 @@ gem "rswag-api", "~> 2.0"
 gem "rswag-ui", "~> 2.0"
 
 gem "thin", "~> 1.7"
+
+gem "puma", "~> 3.12"
