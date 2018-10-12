@@ -2,6 +2,7 @@ require 'rails_helper'
 
 describe AccessControlsController, :type => :request do
 
+
   before(:each) do
     @tmp_assets_dir = Dir.mktmpdir
     Settings.dri.files = @tmp_assets_dir
@@ -15,6 +16,8 @@ describe AccessControlsController, :type => :request do
     @collection.discover_groups_string = 'public'
     @collection.read_groups_string = 'public'
     @collection.save
+
+    https!
   end
 
   after(:each) do
@@ -29,7 +32,6 @@ describe AccessControlsController, :type => :request do
     it 'should update valid permissions' do
       put "/objects/#{@collection.id}/access", batch: { read_groups_string: @collection.id.to_s, manager_users_string: @login_user.to_s }
       @collection.reload
-
       expect(@collection.read_groups_string).to eq(@collection.id.to_s)
     end
 

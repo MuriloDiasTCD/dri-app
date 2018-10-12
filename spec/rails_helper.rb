@@ -40,4 +40,3 @@ RSpec.configure do |config|
 end
 
 Rails.application.eager_load!
-

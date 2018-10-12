@@ -16,6 +16,7 @@ RSpec.describe "Oai requests", type: :request do
 
     collection.governed_items << object
     collection.save
+    https!
   end
 
   after do

@@ -12,6 +12,7 @@ RSpec.describe "Preservation actions", :type => :request do
       sign_in @login_user
 
       @collection = FactoryBot.create(:collection)
+      https!
     end
 
     after(:each) do

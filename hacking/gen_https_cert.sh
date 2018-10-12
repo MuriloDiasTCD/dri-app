@@ -14,10 +14,10 @@ openssl req \
   -subj /CN=localhost \
   -reqexts SAN \
   -sha256 \
-  -days 3650
+  -days 3650 \
   -extensions SAN \
   -config <(cat /usr/lib/ssl/openssl.cnf \
-      <(printf '[SAN]\nsubjectAltName=DNS:localhost')) \
+      <(printf '[SAN]\nsubjectAltName=DNS:localhost'))
 
 # copy cert file to local share to trust it
 sudo cp "$SCRIPTPATH/../config/ssl/$name.crt" "/usr/local/share/ca-certificates/"
