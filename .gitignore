@@ -58,5 +58,5 @@ dri_files
 *.pid
 *.sublime*
 
-config/ssl/*.crt
-config/ssl/*.key
+config/ssl/*
+!config/ssl/.gitkeep

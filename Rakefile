@@ -166,8 +166,8 @@ namespace :ssl do
   namespace :server do
     desc 'start thin with ssl enabled'
     task start: :environment do
-      keys = Dir[Rails.root.join('config', 'ssl', '*.key')]
-      certs = Dir[Rails.root.join('config', 'ssl', '*.crt')]
+      keys = Dir[Rails.root.join('config', 'ssl', 'key.pem')]
+      certs = Dir[Rails.root.join('config', 'ssl', 'cert.pem')]
 
       if keys.count > 1 || certs.count > 1
         puts "${Rails.root.join('config', 'ssl')} must only contain one key and crt file"

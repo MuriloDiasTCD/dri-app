@@ -137,19 +137,19 @@ Cucumber::Rails::Database.javascript_strategy = :truncation
 
 require "rack/handler/puma"
 require 'puma'
-key_file = Dir[Rails.root.join('config', 'ssl', '*.key')].first
-cert_file = Dir[Rails.root.join('config', 'ssl', '*.crt')].first
-# Capybara.server_host="127.0.0.1"
-# Capybara.server_port='9000'
-Capybara.register_server :puma do |app, port, host|
-  Rack::Handler::Puma.run(app, Host: host, Port: port) do |server|
-    server = Puma::Server.new(app)
-    # server.add_tcp_listener(host, port)
-    # server.run
-  end
-end
+key_file = Dir[Rails.root.join('config', 'ssl', 'key.pem')].first
+cert_file = Dir[Rails.root.join('config', 'ssl', 'cert.pem')].first
+# # Capybara.server_host="127.0.0.1"
+# # Capybara.server_port='9000'
+# Capybara.register_server :puma do |app, port, host|
+#   Rack::Handler::Puma.run(app, Host: host, Port: port) do |server|
+#     server = Puma::Server.new(app)
+#     # server.add_tcp_listener(host, port)
+#     # server.run
+#   end
+# end
 Capybara.server = :puma, { 
-  Host: "ssl://#{Capybara.server_host}:#{Capybara.server_port}?key=#{key_file}&cert=#{cert_file}",
+  Host: "ssl://#{Capybara.server_host}?key=#{key_file}&cert=#{cert_file}",
   # Silent: true
 }
 
