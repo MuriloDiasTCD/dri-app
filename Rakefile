@@ -174,7 +174,8 @@ namespace :ssl do
         return 1
       end
 
-      cmd = "thin start --ssl --ssl-key-file #{keys.first} --ssl-cert-file #{certs.first}"
+      # cmd = "thin start --ssl --ssl-key-file #{keys.first} --ssl-cert-file #{certs.first}"
+      cmd = "puma -b 'ssl://127.0.0.1:3000?key=#{keys.first}&cert=#{certs.first}'"
       puts cmd
       system cmd
     end

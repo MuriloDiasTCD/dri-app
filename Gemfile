@@ -93,8 +93,8 @@ group :development, :test do
   gem 'guard'
   gem 'rspec-rails', '~> 3.0'
   gem 'rswag-specs', '~> 2.0'
-  gem 'poltergeist', '>= 1.11.0'
-  gem 'phantomjs', :require => 'phantomjs/poltergeist'
+  # gem 'poltergeist', '>= 1.11.0'
+  # gem 'phantomjs', :require => 'phantomjs/poltergeist'
   gem 'simplecov'
   gem 'simplecov-rcov'
   gem 'railroady'
@@ -112,8 +112,9 @@ group :development, :test do
 end
 
 group :test do
-  gem 'cucumber', '2.3.3'
-  gem 'cucumber-rails', '1.4.3', require: false
+  gem 'capybara', '>=3.1.0'
+  gem 'cucumber', '~> 3.0'
+  gem 'cucumber-rails', '~> 1.6.0', require: false
   gem 'database_cleaner'
   gem 'launchy'
   gem 'shoulda'
@@ -179,3 +180,9 @@ gem "rswag-ui", "~> 2.0"
 gem "thin", "~> 1.7"
 
 gem "puma", "~> 3.12"
+
+gem "chromedriver-helper", "~> 2.1"
+
+gem "selenium-webdriver", "~> 3.14"
+
+gem "geckodriver-helper", "~> 0.21.0"
