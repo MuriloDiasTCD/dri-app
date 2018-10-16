@@ -29,7 +29,7 @@ Feature: Export files
     Given I create an object and save the pid
     When I go to the "object" "modify" page for "the saved pid"
     And I attach the asset file "sample_audio.mp3"
-    And I press the button to "upload a file"
+    And I click the button to "upload a file"
     And I should wait for "10" seconds
     Then I should see a "rights statement"
     And I should see a link to download asset
