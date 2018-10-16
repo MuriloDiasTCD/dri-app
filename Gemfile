@@ -93,8 +93,8 @@ group :development, :test do
   gem 'guard'
   gem 'rspec-rails', '~> 3.0'
   gem 'rswag-specs', '~> 2.0'
-  # gem 'poltergeist', '>= 1.11.0'
-  # gem 'phantomjs', :require => 'phantomjs/poltergeist'
+  gem 'poltergeist', '>= 1.11.0'
+  gem 'phantomjs', :require => 'phantomjs/poltergeist'
   gem 'simplecov'
   gem 'simplecov-rcov'
   gem 'railroady'
@@ -177,12 +177,6 @@ gem 'remotipart'
 gem "rswag-api", "~> 2.0"
 gem "rswag-ui", "~> 2.0"
 
-gem "thin", "~> 1.7"
-
+# https webserver
 gem "puma", "~> 3.12"
 
-gem "chromedriver-helper", "~> 2.1"
-
-gem "selenium-webdriver", "~> 3.14"
-
-gem "geckodriver-helper", "~> 0.21.0"

@@ -43,7 +43,11 @@ end
 Given /^I am logged in as "([^\"]*)" in the group "([^\"]*)" and accept cookies$/ do |login, group|
   email = "#{login}@#{login}.com"
   if User.find_by_email(email).nil?
-    @user = User.create(:email => email, :password => "password", :password_confirmation => "password", :locale => "en", :first_name => "fname", :second_name => "sname", :image_link => File.join(cc_fixture_path, 'sample_image.png'))
+    @user = User.create(
+      :email => email, :password => "password", :password_confirmation => "password", 
+      :locale => "en", :first_name => "fname", :second_name => "sname", 
+      :image_link => File.join(cc_fixture_path, 'sample_image.png')
+    )
     @user.confirm
     @user.save
   else

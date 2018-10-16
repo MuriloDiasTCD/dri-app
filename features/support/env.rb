@@ -14,46 +14,25 @@ SimpleCov.start 'rails'
 
 require 'rubygems'
 require 'i18n'
-# require 'capybara/poltergeist'
+require 'capybara/poltergeist'
 require 'cucumber/rspec/doubles'
 require 'cucumber/api_steps'
 require 'rake'
-# require 'phantomjs'
+require 'phantomjs'
 require 'capybara'
 require 'rspec'
 
-# Capybara.app_host = "https://localhost:3000"
-# Capybara.server_host = "localhost"
-# Capybara.server_port = "3000"
-
-# Capybara.javascript_driver = :poltergeist
-# Capybara.register_driver :poltergeist do |app|
-#   options = {
-#         :js_errors => false,
-#         :timeout => 180,
-#         :debug => false,
-#         :phantomjs_options => ['--load-images=no', '--ignore-ssl-errors=yes', '--disk-cache=false'],
-#         :phantomjs => Phantomjs.path
-#     }
-#   Capybara::Poltergeist::Driver.new(app, options)
-# end
-
-Capybara.register_driver :insecure_selenium do |app|
+Capybara.javascript_driver = :poltergeist
+Capybara.register_driver :poltergeist do |app|
   options = {
-    browser: :firefox,
-    desired_capabilities: { accept_insecure_certs: true },
-    # browser: :chrome, 
-    # options: Selenium::WebDriver::Chrome::Options.new(
-    #   args: [
-    #     # "headless",
-    #     "disable-gpu",
-    #     "--ignore-certificate-errors",
-    #   ]
-    # )
-  }
-  Capybara::Selenium::Driver.new(app, options)
+        :js_errors => false,
+        :timeout => 180,
+        :debug => false,
+        :phantomjs_options => ['--load-images=no', '--ignore-ssl-errors=yes', '--disk-cache=false'],
+        :phantomjs => Phantomjs.path
+    }
+  Capybara::Poltergeist::Driver.new(app, options)
 end
-Capybara.javascript_driver = :insecure_selenium
 
 Capybara.ignore_hidden_elements = false
 
@@ -116,41 +95,13 @@ ActionController::Base.allow_rescue = false
 # See https://github.com/cucumber/cucumber-rails/blob/master/features/choose_javascript_database_strategy.feature
 Cucumber::Rails::Database.javascript_strategy = :truncation
 
-# # Capybara.app_host = 'https://localhost:3000'
-# Capybara.server_port = 3000
-# Capybara.app_host = "https://localhost:#{Capybara.server_port}" 
-# # Capybara.app_host = "https://localhost" 
-
-# require 'thin'
-# Capybara.register_server :thin do |app, port, host|
-#   Rack::Handler::Thin.run(app, Host: host, Port: port) do |server|
-#     server.ssl = true
-#     server.ssl_options = {
-#       private_key_file: Dir[Rails.root.join('config', 'ssl', '*.key')].first,
-#       cert_chain_file: Dir[Rails.root.join('config', 'ssl', '*.crt')].first,
-#       verify_peer: false
-#     }
-#   end
-# end
-# Capybara.server = :thin
-
-
 require "rack/handler/puma"
 require 'puma'
 key_file = Dir[Rails.root.join('config', 'ssl', 'key.pem')].first
 cert_file = Dir[Rails.root.join('config', 'ssl', 'cert.pem')].first
-# # Capybara.server_host="127.0.0.1"
-# # Capybara.server_port='9000'
-# Capybara.register_server :puma do |app, port, host|
-#   Rack::Handler::Puma.run(app, Host: host, Port: port) do |server|
-#     server = Puma::Server.new(app)
-#     # server.add_tcp_listener(host, port)
-#     # server.run
-#   end
-# end
 Capybara.server = :puma, { 
   Host: "ssl://#{Capybara.server_host}?key=#{key_file}&cert=#{cert_file}",
-  # Silent: true
+  Silent: true
 }
 
 

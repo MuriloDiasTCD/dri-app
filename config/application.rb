@@ -75,8 +75,6 @@ module DriApp
     # Version of your assets, change this if you want to expire all your assets
     config.assets.version = '1.0'
 
-    if Rails.env.development? || Rails.env.test?
-        config.force_ssl = true
-    end
+    config.force_ssl = true
   end
 end
