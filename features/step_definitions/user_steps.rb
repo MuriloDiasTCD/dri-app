@@ -100,7 +100,7 @@ Given /^I am logged in as "([^\"]*)" with language "([^\"]*)"$/ do |login, lang|
   visit path_to("sign in")
   fill_in("user_email", :with => email)
   fill_in("user_password", :with => "password")
-  click_button("Login")
+  click_button("login")
   step 'I should be logged in'
 end
 
