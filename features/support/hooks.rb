@@ -6,6 +6,11 @@ Before('~@javascript') do
   page.driver.browser.header('Accept-Language', 'en')
 end
 
+# https://github.com/teampoltergeist/poltergeist/issues/232
+After do 
+  page.driver.restart if defined?(page.driver.restart)
+end
+
 After do
   #DatabaseCleaner.clean
   clean_repo

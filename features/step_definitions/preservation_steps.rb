@@ -1,3 +1,23 @@
+module DriFedoraHelpers
+  # handle case where pid is 'collections', which raises
+  # ActiveFedora::ObjectNotFoundError (ActiveFedora::ObjectNotFoundError)
+  # can be caused by race condition
+  # if root test object doesn't exist it's created implicitly as pair tree node
+  # Ldp::HttpError: STATUS: 403 Objects cannot be created under pairtree nodes...
+  def get_pid
+    pid = URI.parse(current_url).path.split('/').last
+    pid_regex = /^[a-zA-Z0-9]{9}$/
+    raise "Error #{pid} is not a valid pid" unless pid_regex.match?(pid)
+    pid
+  end
+  def wait_until_pid_page
+    patiently do
+      expect {get_pid}.not_to raise_error
+    end
+  end
+end
+World(DriFedoraHelpers)
+
 When /^I create a collection and save the pid$/ do
   steps %{
     Given I am on the home page
@@ -6,7 +26,8 @@ When /^I create a collection and save the pid$/ do
     And I check "deposit"
     And I press the button to "create a collection"
   }
-  @pid = URI.parse(current_url).path.split('/').last
+  wait_until_pid_page
+  @pid = get_pid
 end
 
 When /^I create an object and save the pid$/ do
@@ -17,8 +38,9 @@ When /^I create an object and save the pid$/ do
     And I enter valid metadata
     And I press the button to "continue"
   }
+  wait_until_pid_page
   @collection_pid = @pid
-  @pid = URI.parse(current_url).path.split('/').last
+  @pid = get_pid
 end
 
 

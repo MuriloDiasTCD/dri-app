@@ -24,17 +24,18 @@ require 'rspec'
 
 Capybara.register_driver :poltergeist do |app|
   options = {
-        :js_errors => false,
-        :timeout => 180,
-        :debug => false,
-        :phantomjs_options => [
-          '--load-images=no', 
-          '--ignore-ssl-errors=yes',
-          '--ssl-protocol=any',
-          '--disk-cache=false'
-        ],
-        :phantomjs => Phantomjs.path
-    }
+    js_errors: false,
+    timeout: 180,
+    debug: false,
+    phantomjs_logger: '/dev/null',
+    phantomjs_options: [
+      '--load-images=no', 
+      '--ignore-ssl-errors=yes',
+      '--ssl-protocol=any',
+      '--disk-cache=false'
+    ],
+    phantomjs: Phantomjs.path
+  }
   Capybara::Poltergeist::Driver.new(app, options)
 end
 Capybara.javascript_driver = :poltergeist

@@ -112,16 +112,16 @@ end
 
 When /^(?:|I )go to the "([^"]*)" "([^"]*)" page(?: for "([^"]*)")?$/ do |type, page, pid|
   patiently do
-  if(pid.nil? && ['my collections', 'collection', 'metadata'].include?(type))
-    pid = @collection.id
-  elsif(pid.nil? && type == "object")
-    pid = @digital_object.id
-  elsif (pid.eql?('the saved pid') && (type.eql?("collection") || type == 'my collections'))
-    pid = @collection_pid ? @collection_pid : @pid
-  elsif (pid.eql?('the saved pid') && type.eql?("object"))
-    pid = @pid if pid.eql?('the saved pid')
-  end
-  visit path_for(type, page, pid)
+    if(pid.nil? && ['my collections', 'collection', 'metadata'].include?(type))
+      pid = @collection.id
+    elsif(pid.nil? && type == "object")
+      pid = @digital_object.id
+    elsif (pid.eql?('the saved pid') && (type.eql?("collection") || type == 'my collections'))
+      pid = @collection_pid ? @collection_pid : @pid
+    elsif (pid.eql?('the saved pid') && type.eql?("object"))
+      pid = @pid if pid.eql?('the saved pid')
+    end
+    visit path_for(type, page, pid)
   end
 end
 
