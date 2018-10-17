@@ -217,7 +217,41 @@ Given /^I have created a licence "(.*?)"$/ do |name|
 end
 
 When /^I attach the asset file "(.*?)"$/ do |file|
-  attach_file("Filedata", File.join(cc_fixture_path, file))
+  byebug
+  # id='dri_asset_uploader'
+  # id='Filedata'
+  # id='dri_upload_asset_file'
+  # %w(change click).each do |event|
+  #   script = "$('\##{id}').trigger('#{event}')\;"
+  #   page.execute_script(script)
+  # end
+
+  def hidden_patch
+    ids = %w(dri_asset_uploader dri_upload_asset_file)
+    ids.each do |id|
+      page.execute_script(
+        # "$('\##{id}').css('display', 'inherit')\;"
+        "$('\##{id}').show()\;"
+      )
+      page.find("##{id}").trigger('click')
+    end
+  end
+
+  def num_files(id: 'dri_asset_uploader')
+    page.evaluate_script("$('\##{id}').get(0).files.length\;")
+  end
+
+  def has_file?(id: 'dri_asset_uploader')
+    num_files > 0
+  end
+
+  hidden_patch
+  puts has_file?
+  # page.attach_file('dri_asset_uploader', File.join(cc_fixture_path, file), visible: false, make_visible: true).trigger('click')
+
+  page.attach_file('dri_asset_uploader', File.join(cc_fixture_path, file), make_visible: true).trigger('click')
+  puts has_file?
+
 end
 
 When /^I select a collection$/ do
@@ -258,6 +292,7 @@ end
 Then /^(?:|I )(press|click) the button to "([^"]*)"(?: within "([^"]*)")?$/ do |action,button,selector|
   Capybara.ignore_hidden_elements = false
   patiently do
+    # byebug
     if selector
       within("//*[@id='#{selector}']") do
         page.find_button(button_to_id(button)).click
@@ -287,6 +322,7 @@ Then /^(?:|I )should( not)? see a button to (.+)$/ do |negate,button|
 end
 
 Then /^(?:|I )should( not)? see a link to (.+)$/ do |negate,link|
+  byebug if link == "download asset"
   negate ? (expect(page).to_not have_link(link_to_id(link))) : (expect(page).to have_link(link_to_id(link)))
 end
 
