@@ -49,7 +49,7 @@ Scenario: Constructing a collection (form focus)
   Then the element with id "batch_title][" should be focused
 
 # # These won't work until driver is changed from phantom/poltergeist
-# # To a more up to date browser i.e. healdess chrome or ff
+# # To a more up to date browser i.e. headless chrome or firefox
 #Scenario: Updating a collection (description form focus)
 #  Given a collection with pid "collperm" created by "user1"
 #  When I go to the "collection" "edit" page for "collperm"

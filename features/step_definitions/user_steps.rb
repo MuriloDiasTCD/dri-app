@@ -125,7 +125,10 @@ Given /^I am not logged in$/ do
   step 'I am on the home page'
   Capybara.reset_sessions!
   if %w(poltergeist rack_test).include? Capybara.current_driver.to_s
-    page.driver.submit :delete, "/user_groups/users/sign_out", {}
+    # https://github.com/teampoltergeist/poltergeist/issues/632
+    visit "/user_groups/users/#{@user.id}"
+    # if user is signed in, sign them out
+    page.find('#logout').click() if page.has_css?('#logout')
   end
 end
 
