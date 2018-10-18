@@ -130,6 +130,9 @@ Before do
   allow(Feedjira::Feed).to receive(:fetch_and_parse)
   
   ActiveFedora::Cleaner.clean!
+  # ensure test resource exists and is not pairtree node
+  # https://groups.google.com/forum/#!topic/fedora-tech/57AZpTkWn8M
+  ActiveFedora::Container.new(id: 'test').save!
 
   @tmp_assets_dir = Dir.mktmpdir
   Settings.dri.files = @tmp_assets_dir
