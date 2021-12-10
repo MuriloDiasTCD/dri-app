@@ -503,6 +503,7 @@ en:
           request_doi: Request DOI
           review_collection: Review Collection
           reviewed: Reviewed
+          suspended: Suspended
           upload_file: Upload Asset
           upload_preservation_file: Upload Preservation-only Asset
           view_assets: View Assets
@@ -726,10 +727,12 @@ en:
           save_current_search: Save Current Search
           upload: Upload
           upload_master: Upload Master Asset
+          suspend_object: Suspend Object
         confirm:
           delete: This will delete the object and all assets attached to it. Continue?
           surrogates: This will (re)generate surrogates for all assets. Continue?
           doi_published: "Please note that you are editing a published object. Changes that you make will be visible immediately after being saved. Changes to certain fields may result in the creation of a new version of the DOI name associated with this object. Refer to the depositor guide for more information."
+          suspend: This will suspend the object and all assets attached to it. Continue?
         edit:
           title: Edit Object
           title_collection: Edit Collection

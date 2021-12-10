@@ -256,6 +256,10 @@ class SolrDocument
     status == 'draft'
   end
 
+  def suspended?
+    status == 'suspended'
+  end
+
   def published?
     ancestors_published? && status == 'published'
   end

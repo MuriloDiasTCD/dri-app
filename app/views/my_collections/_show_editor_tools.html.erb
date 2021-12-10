@@ -65,6 +65,15 @@
     <% end %>
   <% end %>
 
+  <% if @document.status == 'published' && current_user.is_admin? %>
+      <%= link_to '', id: 'suspend_object', :'data-target' => '#dri_suspend_object_modal_id', :'data-toggle' => 'modal' do %>
+      <li>
+        <%= t('dri.views.objects.buttons.suspend_object') %>
+      </li>
+    <% end %>
+  <% end %>
+
+
   <% if @document.status != 'published' || current_user.is_admin? %>
     <li>
       <%= form_tag status_update_path(@document.id), method: :put do %>
@@ -74,12 +83,16 @@
         <% elsif @document.status == 'reviewed' %>
           <%= hidden_field_tag( :status, "draft") %>
           <span class="label label-success"><%= t('dri.views.catalog.links.reviewed') %></span><%= submit_tag t('dri.views.catalog.links.mark_object_draft'), id: 'status_update', class: "pull-right dri_button_red_small" %>
+        <% elsif @document.status == 'suspended' %>        
+          <%= hidden_field_tag( :status, "reviewed") %>
+          <span class="label label-danger"><%= t('dri.views.catalog.links.suspended') %></span><%= submit_tag t('dri.views.catalog.links.mark_object_reviewed'), id: 'status_update', class: "pull-right dri_button_green_small" %>
         <% elsif current_user.is_admin? %>
           <%= hidden_field_tag( :status, "draft") %>
           <span class="label label-danger"><%= t('dri.views.catalog.links.published') %></span><%= submit_tag t('dri.views.catalog.links.mark_object_draft'), id: 'status_update', class: "pull-right dri_button_red_small" %>
         <% end %>
       <% end %>
     </li>
+
 
     <% if @document.editable? && (@document.status != 'published' || current_user.is_admin?) %>
       <%= link_to '', id: 'delete_object', :'data-target' => '#dri_delete_object_modal_id', :'data-toggle' => 'modal' do %>
@@ -163,6 +176,37 @@
             <%= t('dri.window.modal.cancel') %>
           </button>
           <%= button_tag t('dri.views.objects.buttons.delete_object'), class: "dri_button_red", id: "delete_object_#{@document.id}", onclick: "$('#delete_object_form').submit();" %>
+        </div>
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+  </div><!-- /.modal -->
+<% end %>
+
+<!-- new modal for confirming suspension -->
+<% if (@document.status == 'published' && current_user.is_admin?) %>
+  <div class="modal fade" id="dri_suspend_object_modal_id">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+            &times;
+          </button>
+          <h4 class="modal-title"><%= t('dri.views.objects.buttons.suspend_object') %></h4>
+        </div>
+
+        <div class="modal-body">
+          <span class="label label-danger"><%= t('dri.views.objects.confirm.suspend') %></span>
+          <br />
+          <%= form_tag (object_path(@document.id)), id: "suspend_object_form", class: 'dri_ingest_form', method: :delete, style: "margin:0;padding:0;display:inline;" do %>
+            <%= submit_tag t('dri.views.objects.buttons.suspend_object'), id: 'submit_suspend', class: "hidden" %>
+          <% end %>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="dri_button_grey" data-dismiss="modal">
+            <%= t('dri.window.modal.cancel') %>
+          </button>
+          <%= button_tag t('dri.views.objects.buttons.suspend_object'), class: "dri_button_red" %>
         </div>
       </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
